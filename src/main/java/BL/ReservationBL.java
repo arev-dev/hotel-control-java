@@ -1,5 +1,6 @@
 package BL;
 
+import DAL.ReservationDAL;
 import EN.Reservation;
 
 import java.sql.ResultSet;

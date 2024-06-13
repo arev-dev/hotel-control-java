@@ -1,5 +1,6 @@
 package BL;
 
+import DAL.RoomDAL;
 import EN.Room;
 
 import java.sql.SQLException;

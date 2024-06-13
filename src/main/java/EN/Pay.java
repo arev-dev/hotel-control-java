@@ -5,16 +5,14 @@ import java.util.Date;
 public class Pay {
     private int id;
     private double mount;
-    private Date paymentDate;
     private String paymentMethod;
     private int idReservation;
 
     public Pay() {}
 
-    public Pay(int id, double mount, Date paymentDate, String paymentMethod, int idReservation) {
+    public Pay(int id, double mount, String paymentMethod, int idReservation) {
         this.id = id;
         this.mount = mount;
-        this.paymentDate = paymentDate;
         this.paymentMethod = paymentMethod;
         this.idReservation = idReservation;
     }
@@ -33,14 +31,6 @@ public class Pay {
 
     public void setMount(double mount) {
         this.mount = mount;
-    }
-
-    public Date getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
     }
 
     public String getPaymentMethod() {

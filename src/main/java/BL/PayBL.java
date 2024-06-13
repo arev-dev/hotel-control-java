@@ -1,5 +1,6 @@
 package BL;
 
+import DAL.PayDAL;
 import EN.Pay;
 
 import java.sql.SQLException;

@@ -21,11 +21,9 @@ public class ReservationDAL {
             while (rs.next()){
                 reservation = new Reservation(
                         rs.getInt(1),
-                        rs.getDate(2),
-                        rs.getDate(3),
-                        rs.getString(4),
-                        rs.getInt(5),
-                        rs.getInt(6)
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4)
                 );
                 lista.add(reservation);
             }
@@ -42,26 +40,12 @@ public class ReservationDAL {
     public static int createReservation (Reservation reservation) throws SQLException {
         int result = 0;
         try {
-            String sql = "INSERT INTO  Reservation (CheckInDate, CheckOutDate, State, IdClient, IdRoom) VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO  Reservation (State, IdClient, IdRoom) VALUES(?,?,?)";
             Connection conexion = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(conexion, sql);
-
-            Date checkInDate = reservation.getCheckInDate();
-            if (checkInDate != null) {
-                ps.setDate(1, new java.sql.Date(checkInDate.getTime()));
-            } else {
-                ps.setDate(1, null);
-            }
-
-            Date checkOutDate = reservation.getCheckOutDate();
-            if (checkOutDate != null) {
-                ps.setDate(2, new java.sql.Date(checkOutDate.getTime()));
-            } else {
-                ps.setDate(2, null);
-            }
-            ps.setString(3,reservation.getState());
-            ps.setInt(4,reservation.getIdClient());
-            ps.setInt(5,reservation.getIdRoom());
+            ps.setString(1,reservation.getState());
+            ps.setInt(2,reservation.getIdClient());
+            ps.setInt(3,reservation.getIdRoom());
             result = ps.executeUpdate();
             conexion.close();
             ps.close();
@@ -75,25 +59,11 @@ public class ReservationDAL {
     public static int updateReservation (Reservation reservation) throws SQLException {
         int result = 0;
         try {
-            String sql = "UPDATE Reservation SET CheckInDate = ?, CheckOutDate = ?, State = ?, WHERE id = ?";
+            String sql = "UPDATE Reservation SET State = ? WHERE id = ?";
             Connection conexion = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(conexion, sql);
-
-            Date checkInDate = reservation.getCheckInDate();
-            if (checkInDate != null) {
-                ps.setDate(1, new java.sql.Date(checkInDate.getTime()));
-            } else {
-                ps.setDate(1, null);
-            }
-
-            Date checkOutDate = reservation.getCheckOutDate();
-            if (checkOutDate != null) {
-                ps.setDate(2, new java.sql.Date(checkOutDate.getTime()));
-            } else {
-                ps.setDate(2, null);
-            }
-            ps.setString(3, reservation.getState());
-            ps.setInt(4, reservation.getId());
+            ps.setString(1, reservation.getState());
+            ps.setInt(2, reservation.getId());
             result = ps.executeUpdate();
             conexion.close();
             ps.close();
@@ -126,39 +96,20 @@ public class ReservationDAL {
         Reservation ReservationResult;
 
         try {
-            String sql = "SELECT * FROM Reservation WHERE Id = ? OR CheckInDate = ? OR CheckOutDate = ? OR State LIKE ? OR IdClient = ? OR IdRoom = ?";
+            String sql = "SELECT * FROM Reservation WHERE Id = ? OR State LIKE ? OR IdClient = ? OR IdRoom = ?";
             Connection connection = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(connection, sql);
 
             // Set the parameters for the prepared statement
             ps.setInt(1, reservation.getId());
-
-            // Convert java.util.Date to java.sql.Date
-            Date checkInDate = reservation.getCheckInDate();
-            if (checkInDate != null) {
-                ps.setDate(2, new java.sql.Date(checkInDate.getTime()));
-            } else {
-                ps.setDate(2, null);
-            }
-
-            // Convert java.util.Date to java.sql.Date
-            Date checkOutDate = reservation.getCheckInDate();
-            if (checkOutDate != null) {
-                ps.setDate(3, new java.sql.Date(checkOutDate.getTime()));
-            } else {
-                ps.setDate(3, null);
-            }
-
-            ps.setString(4, "%" + reservation.getState() + "%");
-            ps.setInt(5, reservation.getIdClient());
-            ps.setInt(6, reservation.getIdRoom());
+            ps.setString(2, "%" + reservation.getState() + "%");
+            ps.setInt(3, reservation.getIdClient());
+            ps.setInt(4, reservation.getIdRoom());
 
             ResultSet rs = ComunDB.getRS(ps);
             while (rs.next()) {
                 ReservationResult = new Reservation(
                         rs.getInt("Id"),
-                        rs.getDate("CheckInDate"),
-                        rs.getDate("CheckOutDate"),
                         rs.getString("State"),
                         rs.getInt("IdClient"),
                         rs.getInt("IdRoom")

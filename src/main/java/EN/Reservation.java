@@ -4,18 +4,14 @@ import java.util.Date;
 
 public class Reservation {
     private int id;
-    private Date checkInDate;
-    private Date checkOutDate;
     private String state;
     private int idClient;
     private int idRoom;
 
     public Reservation() {}
 
-    public Reservation(int id, Date checkInDate, Date checkOutDate, String state, int idClient, int idRoom) {
+    public Reservation(int id, String state, int idClient, int idRoom) {
         this.id = id;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
         this.state = state;
         this.idClient = idClient;
         this.idRoom = idRoom;
@@ -27,22 +23,6 @@ public class Reservation {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Date getCheckInDate() {
-        return checkInDate;
-    }
-
-    public void setCheckInDate(Date checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public Date getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public void setCheckOutDate(Date checkOutDate) {
-        this.checkOutDate = checkOutDate;
     }
 
     public String getState() {

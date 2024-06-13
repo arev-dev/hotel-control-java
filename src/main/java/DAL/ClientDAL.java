@@ -41,7 +41,7 @@ public class ClientDAL {
     public static int createClient(Client Client) throws SQLException{
         int result = 0;
         try {
-            String sql = "INSERT INTO Client(Name, LastName, Country, Phone, Email) VALUES(?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Client(Name, LastName, Country, Phone, Email) VALUES( ?, ?, ?, ?, ?)";
             Connection conexion = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(conexion, sql);
             ps.setString(1, Client.getName());
@@ -59,19 +59,20 @@ public class ClientDAL {
         return result;
     }
 
-    public static int updateClient(Client Client) throws SQLException{
+    public static int updateClient(Client client) throws SQLException{
         int result = 0;
         try {
             String sql = "UPDATE Client SET Name = ?, LastName = ?, Country = ?, Phone = ?, Email = ? WHERE Id = ?";
-            Connection conexion = ComunDB.getConnection();
-            PreparedStatement ps = ComunDB.createPS(conexion, sql);
-            ps.setString(1, Client.getName());
-            ps.setString(2, Client.getLastName());
-            ps.setString(3, Client.getCountry());
-            ps.setString(4, Client.getPhone());
-            ps.setString(5, Client.getEmail());
+            Connection connection = ComunDB.getConnection();
+            PreparedStatement ps = ComunDB.createPS(connection, sql);
+            ps.setString(1, client.getName());
+            ps.setString(2, client.getLastName());
+            ps.setString(3, client.getCountry());
+            ps.setString(4, client.getPhone());
+            ps.setString(5, client.getEmail());
+            ps.setInt(6, client.getId());
             result = ps.executeUpdate();
-            conexion.close();
+            connection.close();
             ps.close();
         }
         catch (Exception ex){

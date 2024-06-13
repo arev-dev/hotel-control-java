@@ -24,9 +24,8 @@ public class PayDAL {
 
                         rs.getInt(1),
                         rs.getDouble(2),
-                        rs.getDate(3),
-                        rs.getString(4),
-                        rs.getInt(5)
+                        rs.getString(3),
+                        rs.getInt(4)
                 );
                 lista.add(pay);
             }
@@ -43,18 +42,12 @@ public class PayDAL {
     public static int createPay (Pay pay) throws SQLException {
         int result = 0;
         try {
-            String sql = "INSERT INTO  Pay (Mount, PaymentDate, PaymentMethod, idReservation) VALUES(?,?,?,?)";
+            String sql = "INSERT INTO  Pay (Mount, PaymentMethod, idReservation) VALUES(?,?,?)";
             Connection conexion = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(conexion, sql);
             ps.setDouble(1, pay.getMount());
-            Date paymentDate = pay.getPaymentDate();
-            if (paymentDate != null) {
-                ps.setDate(2, new java.sql.Date(paymentDate.getTime()));
-            } else {
-                ps.setDate(2, null);
-            }
-            ps.setString(3,pay.getPaymentMethod());
-            ps.setInt(4, pay.getIdReservation());
+            ps.setString(2,pay.getPaymentMethod());
+            ps.setInt(3, pay.getIdReservation());
             result = ps.executeUpdate();
             conexion.close();
             ps.close();
@@ -68,19 +61,12 @@ public class PayDAL {
     public static int updatePay (Pay pay) throws SQLException {
         int result = 0;
         try {
-            String sql = "UPDATE Pay SET Mount = ?, PaymentDate = ?, PaymentMethod = ?,  WHERE id = ?";
+            String sql = "UPDATE Pay SET Mount = ?, PaymentMethod = ? WHERE id = ?";
             Connection conexion = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(conexion, sql);
             ps.setDouble(1, pay.getMount());
-
-            Date paymentDate = pay.getPaymentDate();
-            if (paymentDate != null) {
-                ps.setDate(2, new java.sql.Date(paymentDate.getTime()));
-            } else {
-                ps.setDate(2, null);
-            }
-            ps.setString(3, pay.getPaymentMethod());
-            ps.setInt(4, pay.getId());
+            ps.setString(2, pay.getPaymentMethod());
+            ps.setInt(3, pay.getId());
             result = ps.executeUpdate();
             conexion.close();
             ps.close();
@@ -113,31 +99,21 @@ public class PayDAL {
         Pay payResult;
 
         try {
-            String sql = "SELECT * FROM Pay WHERE Id = ? OR Mount = ? OR PaymentDate = ? OR PaymentMethod LIKE ? OR IdReservation = ?";
+            String sql = "SELECT * FROM Pay WHERE Id = ? OR Mount = ? OR PaymentMethod LIKE ? OR IdReservation = ?";
             Connection connection = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(connection, sql);
 
             // Set the parameters for the prepared statement
             ps.setInt(1, pay.getId());
             ps.setDouble(2, pay.getMount());
-
-            // Convert java.util.Date to java.sql.Date
-            Date paymentDate = pay.getPaymentDate();
-            if (paymentDate != null) {
-                ps.setDate(3, new java.sql.Date(paymentDate.getTime()));
-            } else {
-                ps.setDate(3, null);
-            }
-
-            ps.setString(4, "%" + pay.getPaymentMethod() + "%");
-            ps.setInt(5, pay.getIdReservation());
+            ps.setString(3, "%" + pay.getPaymentMethod() + "%");
+            ps.setInt(4, pay.getIdReservation());
 
             ResultSet rs = ComunDB.getRS(ps);
             while (rs.next()) {
                 payResult = new Pay(
                         rs.getInt("Id"),
                         rs.getDouble("Mount"),
-                        rs.getDate("PaymentDate"),
                         rs.getString("PaymentMethod"),
                         rs.getInt("IdReservation")
                 );

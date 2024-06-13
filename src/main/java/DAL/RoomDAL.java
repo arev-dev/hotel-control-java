@@ -41,7 +41,7 @@ public class RoomDAL {
     public static int createRoom(Room room) throws SQLException {
         int result = 0;
         try {
-            String sql = "INSERT INTO Room(roomNumber, roomType, nightCost, state) VALUES(?, ?, ?, ?,)";
+            String sql = "INSERT INTO Room(roomNumber, roomType, nightCost, state) VALUES(?, ?, ?, ?)";
             Connection conexion = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(conexion, sql);
             ps.setString(1, room.getRoomNumber());
@@ -100,7 +100,7 @@ public class RoomDAL {
         Room roomResult;
         try{
 
-            String sql = "SELECT * FROM Room WHERE id = ? OR name LIKE ? OR lastName LIKE ? OR country LIKE ?";
+            String sql = "SELECT * FROM Room WHERE id = ? OR RoomNumber LIKE ? OR RoomType LIKE ? OR NightCost LIKE ? OR State LIKE ?";
             Connection connection = ComunDB.getConnection();
             PreparedStatement ps = ComunDB.createPS(connection, sql);
             ps.setInt(1, room.getId());

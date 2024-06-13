@@ -20,7 +20,7 @@ public class ClientBL {
     public ArrayList<Client> getAll() throws SQLException{
         return ClientDAL.getAll();
     }
-    public ArrayList<Client> getFilterData(Client Client) throws SQLException{
-        return ClientDAL.getFilterData(Client);
+    public ArrayList<Client> getFilterData(Client client) throws SQLException{
+        return ClientDAL.getFilterData(client);
     }
 }
