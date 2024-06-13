@@ -1,5 +1,6 @@
 create database HotelDb;
 use HotelDb;
+
 CREATE TABLE `Client` (
   `Id` int PRIMARY KEY AUTO_INCREMENT,
   `Name` varchar(255),
@@ -17,8 +18,6 @@ CREATE TABLE `Room` (
 );
 CREATE TABLE `Reservation` (
   `Id` int PRIMARY KEY AUTO_INCREMENT,
-  `CheckInDate` datetime,
-  `CheckOutDate` datetime,
   `State` varchar(255),
   `IdClient` int,
   `IdRoom` int
@@ -27,7 +26,6 @@ CREATE TABLE `Reservation` (
 CREATE TABLE `Pay` (
   `Id` int PRIMARY KEY AUTO_INCREMENT,
   `Mount` double,
-  `PaymentDate` datetime,
   `PaymentMethod` varchar(255),
   `IdReservation` int
 );
