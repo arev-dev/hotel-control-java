@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class ComunDB {
 
-    private static String connectionString = "jdbc:mysql://localhost:3306/HotelDb?user=root&password=emmanuelle";
+    private static String connectionString = "jdbc:mysql://localhost:3306/HotelDb?user=root&password=";
 
 
     public static Connection getConnection() throws SQLException {
